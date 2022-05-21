@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "outDir": "dist/js", //informando diretório
+        "target": "ES6", // passando a versão do JS 
+        "noEmitOnError": true, // não deixa o arquivo compilar com erro
+        // "noImplicitAny": true // não deixa o arquivo compilar var any
+    },
+    "include": ["app/**/*"] // incluindo os arquivos que queremos converter
+}
