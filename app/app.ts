@@ -1,8 +1,12 @@
-import { Negociacao } from "./models/negociacao.js";
+import { NegociacaoController } from "./controllers/negociacao-controller.js";
 
-const negociacao = new Negociacao(new Date(), 10, 100);
-console.log(negociacao);
+//Quando a aplicação inicia, ela cria uma nova instancia do NegociacaoController;
+const controller = new NegociacaoController();
 
-// negociacao.quantidade = 1000;
-console.log(negociacao.volume);
+const form = document.querySelector(".form");
 
+form.addEventListener("submit", (event) => {
+    //proibindo o reload da tela
+  event.preventDefault();
+  controller.adiciona();
+});
