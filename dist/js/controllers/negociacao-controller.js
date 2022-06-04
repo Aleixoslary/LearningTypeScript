@@ -1,12 +1,16 @@
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
+import { NegociacoesView } from "../views/negociacoes-view.js";
 export class NegociacaoController {
     constructor() {
-        //criando uma nova prop de negociacoes
+        //instanciando uma nova prop de negociacoes
         this.negociacoes = new Negociacoes();
+        //instanciando uma nova prop de negociacoesView, passando como parametro o id do elemento;
+        this.negociacoesView = new NegociacoesView("#negociacoesView");
         this.inputData = document.querySelector("#data");
         this.inputQuantidade = document.querySelector("#quantidade");
         this.inputValor = document.querySelector("#valor");
+        this.negociacoesView.update(this.negociacoes);
     }
     criaNegociacao() {
         //convertendo o value do input date (que é do tipo String) para data com regex
@@ -24,7 +28,7 @@ export class NegociacaoController {
         const negociacao = this.criaNegociacao();
         //esse adiciona é do models/negociacoes -> para adicionar na lista
         this.negociacoes.adiciona(negociacao);
-        console.log(this.negociacoes.lista());
+        this.negociacoesView.update(this.negociacoes);
         this.limparFormulario();
     }
     limparFormulario() {

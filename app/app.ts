@@ -6,7 +6,7 @@ const controller = new NegociacaoController();
 const form = document.querySelector(".form");
 
 form.addEventListener("submit", (event) => {
-    //proibindo o reload da tela
+  //proibindo o reload da tela
   event.preventDefault();
   controller.adiciona();
 });
