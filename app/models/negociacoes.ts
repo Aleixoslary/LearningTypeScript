@@ -6,13 +6,13 @@ export class Negociacoes {
   private negociacoes: Negociacao[] = [];
 
   //adicionando a negociacao no array
-  adiciona(negociacao: Negociacao) {
+  public adiciona(negociacao: Negociacao) {
     this.negociacoes.push(negociacao);
   }
 
   //listando as negociacoes
   //Modificador ReadonlyArray -> permite apenas a exibição do array
-  lista(): readonly Negociacao[] {
+  public lista(): readonly Negociacao[] {
     return this.negociacoes;
   }
 }

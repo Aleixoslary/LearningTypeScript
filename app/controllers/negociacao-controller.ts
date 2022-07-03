@@ -1,5 +1,7 @@
+import { DiaDaSemana } from "../enums/days-of-week.js";
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
+import { MensagemView } from "../views/mensagem-view.js";
 import { NegociacoesView } from "../views/negociacoes-view.js";
 
 export class NegociacaoController {
@@ -11,45 +13,57 @@ export class NegociacaoController {
   private negociacoes = new Negociacoes();
 
   //instanciando uma nova prop de negociacoesView, passando como parametro o id do elemento;
-  private negociacoesView = new NegociacoesView("#negociacoesView");
+  private negociacoesView = new NegociacoesView("#negociacoesView", false);
+  private mensagemView = new MensagemView("#mensagemView", false);
 
   constructor() {
-    this.inputData = document.querySelector("#data");
-    this.inputQuantidade = document.querySelector("#quantidade");
-    this.inputValor = document.querySelector("#valor");
+    this.inputData = <HTMLInputElement>document.querySelector("#data");
+    this.inputQuantidade = document.querySelector(
+      "#quantidade",
+    ) as HTMLInputElement;
+    this.inputValor = document.querySelector("#valor") as HTMLInputElement;
     this.negociacoesView.update(this.negociacoes);
   }
 
-  criaNegociacao(): Negociacao {
-    //convertendo o value do input date (que é do tipo String) para data com regex
-    const exp = /-/g;
-    const date = new Date(this.inputData.value.replace(exp, ","));
-
-    //convertendo os values de quantidade e valor para int e float
-    const quantidade = parseInt(this.inputQuantidade.value);
-    const valor = parseFloat(this.inputValor.value);
-
-    //criando uma nova instancia do modelo de negociacao;
-    //obrigatoriamente ele espera 3 parametros;
-    return new Negociacao(date, quantidade, valor);
-  }
-
-  adiciona(): void {
+  public adiciona(): void {
     //adiciona uma nova negociação e em seguida limpa o formulário
-    const negociacao = this.criaNegociacao();
+    const negociacao = Negociacao.criaDe(
+      this.inputData.value,
+      this.inputQuantidade.value,
+      this.inputValor.value,
+    );
+
+    //verificando se a data é um dia útil
+    const verifyDay = this.isValidDay(negociacao.data);
+
+    if (!verifyDay)
+      return this.mensagemView.update(
+        "Por favor, utilize apenas dias úteis (seg-sex)",
+      );
 
     //esse adiciona é do models/negociacoes -> para adicionar na lista
     this.negociacoes.adiciona(negociacao);
-
-    this.negociacoesView.update(this.negociacoes);
-
+    this.updateView();
     this.limparFormulario();
   }
 
-  limparFormulario(): void {
+  private isValidDay(data: Date): boolean {
+    return (
+      //utilizando enums para comparar as datas
+      data.getDay() > DiaDaSemana.DOMINGO && data.getDay() < DiaDaSemana.SABADO
+    );
+  }
+
+  private limparFormulario(): void {
     this.inputData.value = "";
     this.inputQuantidade.value = "";
     this.inputValor.value = "";
     this.inputData.focus();
+  }
+
+  private updateView(): void {
+    this.negociacoesView.update(this.negociacoes);
+
+    this.mensagemView.update("Negociação adicionada com sucesso");
   }
 }
