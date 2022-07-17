@@ -1,8 +1,11 @@
+import { escape } from "../decorators/escape.js";
 import { Negociacoes } from "../models/negociacoes.js";
 import { View } from "./view.js";
 
 //Extendo a classe e informando o tipo dela (array)
 export class NegociacoesView extends View<Negociacoes> {
+    //chamando decorator para tratar scrpits indesejados no código
+    @escape
   //criando o template a ser exibido, do tipo String
   //colocando o método como protected para que ele seja usado apenas nas views
   protected template(model: Negociacoes): string {

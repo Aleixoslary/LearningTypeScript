@@ -23,7 +23,7 @@ export class Negociacao {
     return data;
   }
 
-    //todo método estático podemos chamar direto a classe, sem necessidade de instanciar
+  //todo método estático podemos chamar direto a classe, sem necessidade de instanciar
   public static criaDe(
     dateString: string,
     quantidadeString: string,

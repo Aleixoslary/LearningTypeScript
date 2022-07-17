@@ -1,3 +1,5 @@
+import { logarTempoDeExecucao } from "../decorators/logar-tempo-execucao.js";
+import { inspect } from "../decorators/inspect.js";
 import { DiaDaSemana } from "../enums/days-of-week.js";
 import { Negociacao } from "../models/negociacao.js";
 import { Negociacoes } from "../models/negociacoes.js";
@@ -13,8 +15,8 @@ export class NegociacaoController {
   private negociacoes = new Negociacoes();
 
   //instanciando uma nova prop de negociacoesView, passando como parametro o id do elemento;
-  private negociacoesView = new NegociacoesView("#negociacoesView", false);
-  private mensagemView = new MensagemView("#mensagemView", false);
+  private negociacoesView = new NegociacoesView("#negociacoesView");
+  private mensagemView = new MensagemView("#mensagemView");
 
   constructor() {
     this.inputData = <HTMLInputElement>document.querySelector("#data");
@@ -25,6 +27,10 @@ export class NegociacaoController {
     this.negociacoesView.update(this.negociacoes);
   }
 
+  //Decorator para informar o tempo de execução do método
+  @logarTempoDeExecucao()
+  //Decorator para inspecionar o método
+  @inspect
   public adiciona(): void {
     //adiciona uma nova negociação e em seguida limpa o formulário
     const negociacao = Negociacao.criaDe(
@@ -43,8 +49,8 @@ export class NegociacaoController {
 
     //esse adiciona é do models/negociacoes -> para adicionar na lista
     this.negociacoes.adiciona(negociacao);
-    this.updateView();
     this.limparFormulario();
+    this.updateView();
   }
 
   private isValidDay(data: Date): boolean {

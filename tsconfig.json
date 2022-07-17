@@ -5,7 +5,8 @@
         "noEmitOnError": true, // não deixa o arquivo compilar com erro
         "noImplicitAny": true, // não deixa o arquivo compilar var any
         "removeComments": true, // remove cometários 
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "experimentalDecorators": true //permitindo o uso de Decorators
     },
     "include": ["app/**/*"] // incluindo os arquivos que queremos converter
 }
